@@ -26,3 +26,6 @@ dist-ssr
 # Enviroment file
 .env
 
+tests/average.test.js
+tests/reverse.test.js
+utils/for_testing.js
