@@ -2,20 +2,6 @@ const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 
-describe('dummy', () => {
-    test('dummy returns one', async () => {
-
-    //const response = await fetch('http://localhost:3003/api/blogs')
-    //const blogs = await response.json()
-    
-    const blogs = []
-    const result = listHelper.dummy(blogs)
-    assert.strictEqual(result, 1)
-    })
-})
-
-describe('total likes', () => {
- 
     const blogs_empty = []
     const blogs_single = [
     {
@@ -77,6 +63,21 @@ describe('total likes', () => {
     __v: 0
   }  
 ]
+
+describe('dummy', () => {
+    test('dummy returns one', async () => {
+
+    //const response = await fetch('http://localhost:3003/api/blogs')
+    //const blogs = await response.json()
+    
+    const blogs = []
+    const result = listHelper.dummy(blogs)
+    assert.strictEqual(result, 1)
+    })
+})
+
+describe('total likes', () => {
+ 
     test('empty list is zero', () => {   
     const result = listHelper.sumOfLikes(blogs_empty)
     assert.strictEqual(result, blogs_empty.length)
@@ -89,5 +90,23 @@ describe('total likes', () => {
     const result = listHelper.sumOfLikes(blogs)
     assert.strictEqual(result, 36)
     })
+
+describe ('Favourite Blog', () => {
+
+    test('empty list is zero', () => {   
+    const result = listHelper.favouriteBlog(blogs_empty)
+    assert.strictEqual(result, blogs_empty.length)
+    })
+    test('when list has only entry the favourite blog is the only blog', () => {   
+    const result = listHelper.favouriteBlog(blogs_single)
+    assert.strictEqual(result, blogs_single[0].title)
+    })
+    test('Favourite blog is with most likes', () => {   
+    const result = listHelper.favouriteBlog(blogs)
+    assert.deepStrictEqual(result, "Canonical string reduction" )  
+    })
+}
+
+)
 
 })

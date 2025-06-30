@@ -31,8 +31,27 @@ blogs.forEach(function(blog) {
 var totalLikes = blogs.reduce ((sum, blogs) => sum + blogs.likes,0)
 
 return totalLikes
-}  
+} 
+
+const favouriteBlog =(blogs) => {
+  if (blogs.length > 1) {
+    var mostLikes = 0
+    var favBlog = []
+    blogs.reduce (function(find, blogs){
+      find = blogs.likes
+      if (find > mostLikes) {
+        mostLikes = find
+        favBlog = blogs.title
+    }})
+      return favBlog
+  }
+  if (blogs.length == 1) {
+    var favBlog = blogs[0].title
+    return favBlog
+  }  
+  else { return 0 }    
+}
 
 module.exports = {
-  dummy, sumOfLikes
+  dummy, sumOfLikes, favouriteBlog
 }
