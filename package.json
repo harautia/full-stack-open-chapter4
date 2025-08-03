@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
-    "test": "node --test"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development node --watch index.js",
+    "test": "NODE_ENV=test node --test",
+    "lint": "eslint ."
   },
   "author": "Hannu Rautiainen",
   "license": "MIT",
@@ -15,5 +16,8 @@
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
     "mongoose": "^8.16.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
   }
 }
