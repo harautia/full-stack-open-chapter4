@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
+const Blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -16,8 +17,31 @@ test('blogs are returned as json', async () => {
 
 test('blogs database _id is unique', async () => {
   const isBlogIdUnique = await helper.uniqueBlogId()
-
   assert.strictEqual(true, isBlogIdUnique)
+})
+
+
+test('Adding blog to DB', async () => {
+  const newBlog = {
+    "title": "Asian Cooking", 
+    "author": "Leslie Martins",
+    "url": "web-page-1234",
+    "likes": 124
+  }
+
+  const initialBlogs = await helper.blogsInDb()
+  
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const addedBlogs = await helper.blogsInDb()
+  assert.strictEqual(initialBlogs.length, addedBlogs.length -1)
+
+  const isNewBlogAdded = await helper.newBlogInDb(newBlog)
+  assert.strictEqual(true, isNewBlogAdded)
 })
 
 

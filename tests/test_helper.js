@@ -2,9 +2,7 @@ const Blog = require('../models/blog')
 
 const uniqueBlogId = async () => {
     const blogs = await Blog.find ({})
-
-    const ids = blogs.map(blog => blog.id);
-    console.log(ids);
+    const ids = blogs.map(blog => blog.id)
 
     // A Set in JavaScript automatically removes duplicates - it only stores unique values.
     const uniqueIds = new Set(ids);
@@ -26,12 +24,25 @@ const uniqueBlogId = async () => {
     else
         return false
 }
-/*
+
 const blogsInDb = async () => {
-  const blogs = await Blog.find({})
-  return blogs.map(blog => blog.toJSON())
+    const blogs = await Blog.find({})
+    return blogs.map(blog => blog.toJSON())
 }
-*/
+
+const newBlogInDb = async (newBlog) => {
+    const blogs = await Blog.find({})
+
+    if (blogs.find(blog => 
+        blog.title === newBlog.title && 
+        blog.author === newBlog.author && 
+        blog.url === newBlog.url))
+        return true
+    else
+        return false
+
+}
+
 module.exports = {
-  uniqueBlogId
+  uniqueBlogId, blogsInDb, newBlogInDb
 }
