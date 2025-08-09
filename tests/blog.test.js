@@ -1,16 +1,25 @@
+const assert = require('node:assert')
 const { test, after } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
+const helper = require('./test_helper')
 
 const api = supertest(app)
 
-test.only('notes are returned as json', async () => {
+test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
+
+test('blogs database _id is unique', async () => {
+  const isBlogIdUnique = await helper.uniqueBlogId()
+
+  assert.strictEqual(true, isBlogIdUnique)
+})
+
 
 after(async () => {
   await mongoose.connection.close()
