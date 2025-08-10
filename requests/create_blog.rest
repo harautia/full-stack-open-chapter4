@@ -2,8 +2,7 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-"title": "Asian Cooking", 
+"title": "Test1", 
 "author": "Leslie Martins",
-"url": "web-page-1234",
-"likes": 124
+"url": "web-page-1234"
 }

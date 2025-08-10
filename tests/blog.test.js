@@ -44,6 +44,23 @@ test('Adding blog to DB', async () => {
   assert.strictEqual(true, isNewBlogAdded)
 })
 
+test('Missing Likes Parameter', async () => {
+  const newBlog = {
+    "title": "Testing1235", 
+    "author": "Kieran Landon",
+    "url": "web-page-4321"
+  }
+  
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const lastAddedBlogLikeCheck = await helper.noLikesBlogAddedTonDb(newBlog)
+  assert.strictEqual(0, lastAddedBlogLikeCheck)
+})
+
 
 after(async () => {
   await mongoose.connection.close()

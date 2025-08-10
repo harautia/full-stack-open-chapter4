@@ -40,9 +40,15 @@ const newBlogInDb = async (newBlog) => {
         return true
     else
         return false
+}
 
+const noLikesBlogAddedTonDb = async (newBlog) => {
+
+    // This finds last added blog 
+    const lastAddedBlog = await Blog.find({title: (newBlog.title), author: (newBlog.author)})
+    return lastAddedBlog[0].likes
 }
 
 module.exports = {
-  uniqueBlogId, blogsInDb, newBlogInDb
+  uniqueBlogId, blogsInDb, newBlogInDb, noLikesBlogAddedTonDb
 }
