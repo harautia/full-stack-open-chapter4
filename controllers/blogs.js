@@ -10,6 +10,18 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
   
+  // Check that URL and TITLE fields are in request
+  if (!body.url) {
+    return response.status(400).json({ 
+      error: 'URL is missing from the request' 
+    })
+  }
+  if (!body.title) {
+    return response.status(400).json({ 
+      error: 'Title is missing from the request' 
+    })
+  }
+
   const blog = new Blog({
     title: body.title,
     author: body.author,

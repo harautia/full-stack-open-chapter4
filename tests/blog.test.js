@@ -50,7 +50,6 @@ test('Missing Likes Parameter', async () => {
     "author": "Kieran Landon",
     "url": "web-page-4321"
   }
-  
     await api
     .post('/api/blogs')
     .send(newBlog)
@@ -59,6 +58,42 @@ test('Missing Likes Parameter', async () => {
 
   const lastAddedBlogLikeCheck = await helper.noLikesBlogAddedTonDb(newBlog)
   assert.strictEqual(0, lastAddedBlogLikeCheck)
+})
+
+test('Blog without URL is not added', async () => {
+  const newBlog = {
+    "title": "Testing1235", 
+    "author": "Kieran Landon",
+    "likes": 123
+  }
+  const initialBlogs = await helper.blogsInDb()
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+  const addedBlogs = await helper.blogsInDb()
+  assert.strictEqual(initialBlogs.length, addedBlogs.length)
+})
+
+test('Blog without title is not added', async () => {
+  const newBlog = { 
+    "author": "Kieran Landon",
+    "url": "web-site-1",
+    "likes": 123
+  }
+  const initialBlogs = await helper.blogsInDb()
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+  const addedBlogs = await helper.blogsInDb()
+  assert.strictEqual(initialBlogs.length, addedBlogs.length)
 })
 
 
