@@ -20,7 +20,6 @@ test('blogs database _id is unique', async () => {
   assert.strictEqual(true, isBlogIdUnique)
 })
 
-
 test('Adding blog to DB', async () => {
   const newBlog = {
     "title": "Asian Cooking", 
@@ -94,6 +93,22 @@ test('Blog without title is not added', async () => {
 
   const addedBlogs = await helper.blogsInDb()
   assert.strictEqual(initialBlogs.length, addedBlogs.length)
+})
+
+test('Blog likes updated correctly', async () => {
+  const updateLikes = {
+    "likes": 999
+  }
+
+    await api
+    .put('/api/blogs/68976c22228bca51c804e332')
+    .send(updateLikes)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const likeUpdate = await helper.likesInBlog('68976c22228bca51c804e332')
+ 
+  assert.strictEqual(updateLikes.likes,likeUpdate)
 })
 
 

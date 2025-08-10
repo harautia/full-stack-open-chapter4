@@ -40,14 +40,22 @@ blogsRouter.delete('/:id', (request, response, next) => {
     })
     .catch(error => next(error))
 })
-/*
-blogsRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
 
-  blog.save().then((result) => {
-    response.status(201).json(result)
-  })
+blogsRouter.put('/:id', (request, response, next) => {
+  const { content, likes } = request.body
+
+  Blog.findById(request.params.id)
+    .then(blog => {
+      if (!blog) {
+        return response.status(404).end()
+      }
+      blog.likes = likes
+
+      return blog.save().then((updatedBlog) => {
+        response.json(updatedBlog)
+      })
+    })
+    .catch(error => next(error))
 })
-*/
 
 module.exports = blogsRouter
