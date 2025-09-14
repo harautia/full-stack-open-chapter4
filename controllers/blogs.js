@@ -4,7 +4,7 @@ const User = require('../models/user')
 
 // Exercise 4.8 change
 blogsRouter.get('/', async (request, response) => { 
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(blogs)
 })
 
@@ -25,6 +25,9 @@ blogsRouter.post('/', async (request, response, next) => {
 
   const user = await User.findById(body.userId)
 
+  console.log(user)
+
+
   if (!user) {
     return response.status(400).json({ error: 'userId missing or not valid' })
   }
@@ -32,12 +35,14 @@ blogsRouter.post('/', async (request, response, next) => {
   const blog = new Blog({
     title: body.title,
     author: body.author,
-    user: user,
+    user: body.userId,
     url: body.url,
     likes: body.likes || 0
   })
       
   const savedBlog = await blog.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
   response.status(201).json(savedBlog)
 })
 
