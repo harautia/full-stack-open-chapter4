@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 // Exercise 4.8 change
 blogsRouter.get('/', async (request, response) => { 
@@ -22,9 +23,16 @@ blogsRouter.post('/', async (request, response, next) => {
     })
   }
 
+  const user = await User.findById(body.userId)
+
+  if (!user) {
+    return response.status(400).json({ error: 'userId missing or not valid' })
+  }
+
   const blog = new Blog({
     title: body.title,
     author: body.author,
+    user: user,
     url: body.url,
     likes: body.likes || 0
   })

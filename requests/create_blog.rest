@@ -4,5 +4,6 @@ Content-Type: application/json
 {
 "title": "Test1", 
 "author": "Leslie Martins",
-"url": "web-page-1234"
+"url": "web-page-1234",
+"likes": 45432 
 }
